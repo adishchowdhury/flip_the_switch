@@ -1,0 +1,6 @@
+2026-11-06T06:02:11Z INFO  checkout order=o-1041 total_cents=5000 provider=v1 result=200
+2026-11-06T06:58:40Z INFO  deploy release=2026.11.06-1 change="Upgrade payment provider client to API v2"
+2026-11-06T07:03:52Z ERROR checkout order=o-1042 total_cents=5000 result=502 error=payment_provider_error provider_response={"state": "succeeded", "id": "txn_5000_4242", "amount": 5000, "currency": "usd"}
+2026-11-06T07:05:17Z ERROR checkout order=o-1043 total_cents=1299 result=502 error=payment_provider_error provider_response={"state": "succeeded", "id": "txn_1299_4242", "amount": 1299, "currency": "usd"}
+2026-11-06T07:11:09Z ERROR checkout order=o-1044 total_cents=8800 result=502 error=payment_provider_error provider_response={"state": "succeeded", "id": "txn_8800_1881", "amount": 8800, "currency": "usd"}
+2026-11-06T07:12:30Z WARN  support ticket #5521: "customers charged but see an error at checkout"
