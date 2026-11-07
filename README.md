@@ -93,15 +93,3 @@ SwitchOps is **self-hosted and runs locally**, like Switch itself: `scripts/up.s
 
 Demo walkthrough: [docs/DEMO.md](docs/DEMO.md).
 
-## Windows (WSL2) notes
-Run everything inside Ubuntu in your Linux home folder (`cd ~`), not under `/mnt/c`. Docker Desktop needs WSL integration on, and `sudo usermod -aG docker $USER` followed by reopening Ubuntu. If Docker Hub downloads fail or arrive corrupted on your network, try a different network (phone hotspot) and retry. `up.sh` skips Python dev tools (`UV_NO_DEV=1`) to reduce downloads. If Ubuntu keeps closing during the build, give WSL more memory in `%UserProfile%\.wslconfig`.
-
-## Known limitations (honest)
-- **A mistake during development:** the first approve run was refused (it found 0 tests), but I (the human) told the commander it had succeeded and it marked RESOLVED without checking. The script and the commander prompt were fixed, and the fix is now tested end to end (see test results).
-- **Hand-offs depend on @mentions.** One run stalled because an agent forgot to mention the next one. The prompt now makes it a hard rule and the next run worked, but an LLM can still forget; there is no automatic retry or timeout alert.
-- The deny rules and "no remote" are guardrails, not a sandbox: agents run as the same OS user and could read other files.
-- Roles are defined in the room (`!roles` lists three exclusive roles). In the recorded run only the commander assumed its role; the engineer and QA did not, and handoffs worked through @mentions. Roles show as free once sessions end.
-- Single scenario, two runs (one stalled, one clean); the QA agent's independence is separate sessions and clones, not a different model.
-- Gate pushes to a local bare repo (`origin.git`), not GitHub. No deploy exists.
-- Not run: Switch Console, Slack/Teams, remote hosts.
-- Verified in a Linux sandbox where `ghcr.io` images were blocked, so Switch runs from source, not the standalone image.
