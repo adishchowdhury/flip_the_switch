@@ -95,3 +95,12 @@ Demo walkthrough: [docs/DEMO.md](docs/DEMO.md).
 
 ## Landing page (Vercel)
 `site/` is a static landing page (plain HTML, no build step) with a toggle that replays the real incident. Deploy it on Vercel: import this repo, set **Root Directory** to `site`, Framework Preset **Other**, leave the build command and output directory empty. Or from a terminal: `cd site && npx vercel --prod`. Its GitHub links point at the working branch; after merging to `main`, run `sed -i 's|tree/adish/hopeful-hopper-8se359|tree/main|g' site/index.html`.
+
+## Telegram and Discord
+Switch supports both. `switchops/add_bridge.py` connects either one using bot tokens from environment variables (never committed), then puts the three agents, the room instructions and the roles into a room you name:
+```bash
+TELEGRAM_BOT_TOKEN=... TELEGRAM_BOT_USERNAME=... python3 switchops/add_bridge.py connect telegram
+# add the bot to a Telegram group (turn Group Privacy off in BotFather first), then:
+python3 switchops/add_bridge.py adopt Telegram "<group name>"
+```
+Discord: `DISCORD_BOT_TOKEN` and `DISCORD_GUILD_ID`, `connect discord`, post a message in a channel, then `adopt`. Setup steps for the bots are in Switch's docs (`docs/official/deploy/messaging-apps/` in its repository). **Status:** tested up to Telegram rejecting a deliberately fake token and a named-room adopt on Mattermost; not yet run against a real Telegram or Discord bot.
