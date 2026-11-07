@@ -64,7 +64,7 @@ python3 -m unittest tests.test_approve                               # tests for
 ## What actually ran (real, unscripted agent output)
 On a seeded repo where a provider API upgrade renamed response fields, the agents: triaged SEV1; created the ledger; the engineer found commit `252fd4b`, quoted three failing log lines, reproduced 2 failing tests on `main`, fixed it on `fix/provider-v2-response-fields`; QA independently showed the new test fails on `main` and passes on the branch and noticed a pre-existing KeyError risk; the commander presented diff, tests, risks and the approve command, then waited. The human then ran the gate, which re-ran tests and pushed.
 
-**Demo video (66s, real run, idle agent time sped up):** [docs/video/switchops-demo.mp4](docs/video/switchops-demo.mp4)
+**Demo video (66s, real run, idle agent time sped up, AI voiceover):** [docs/video/switchops-demo.mp4](docs/video/switchops-demo.mp4)
 
 | | |
 |---|---|
