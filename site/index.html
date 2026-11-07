@@ -123,6 +123,7 @@ h2{font-size:clamp(26px,3.6vw,38px);letter-spacing:-.03em;margin:8px 0 12px;font
 .tab[aria-selected=true]{border-color:var(--accent);color:var(--accent)}
 .shot{border:1px solid var(--line2);border-radius:8px;overflow:hidden;background:var(--panel)}
 .shot img,.vid video{display:block;width:100%;height:auto}
+.shot img.narrow{max-width:520px;margin:0 auto}
 .cap{font-size:13.5px;color:var(--mute);padding:12px 4px 0}
 .vid{border:1px solid var(--line2);border-radius:8px;overflow:hidden;background:#000;margin-bottom:34px}
 
@@ -251,6 +252,8 @@ footer div+div{max-width:640px;margin:0 auto}
       <button class="tab" role="tab" aria-selected="false" data-i="1">QA and review</button>
       <button class="tab" role="tab" aria-selected="false" data-i="2">Safety test</button>
       <button class="tab" role="tab" aria-selected="false" data-i="3">Approval gate</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="4">Telegram: false claim</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="5">Telegram: verified close</button>
     </div>
     <div class="shot"><img id="shotimg" src="assets/1-investigation.jpg" alt="Screenshot of the incident in the Switch room" loading="lazy"></div>
     <p class="cap" id="shotcap"></p>
@@ -274,11 +277,11 @@ footer div+div{max-width:640px;margin:0 auto}
     <p class="lede">LightSwitch does not reinvent chat or agent hosting. It is a team configuration and a safety gate on top of Switch.</p>
     <div class="grid g3">
       <div class="card"><h3>From Switch</h3><ul class="clean">
-        <li><b>Rooms</b> and the Mattermost bridge</li><li><b>Agent controller</b> that runs Claude Code</li><li><b>Managed agent</b> registration</li><li><b>Room instructions</b> every agent reads</li><li><b>Room documents</b>: the incident ledger</li><li><b>@mention routing</b> between agents and people</li></ul></div>
+        <li><b>Rooms</b> with Mattermost and Telegram bridges</li><li><b>Agent controller</b> that runs Claude Code</li><li><b>Managed agent</b> registration</li><li><b>Room instructions</b> every agent reads</li><li><b>Room documents</b>: the incident ledger</li><li><b>@mention routing</b> between agents and people</li></ul></div>
       <div class="card"><h3>Built by us</h3><ul class="clean">
         <li>Three role prompts and shared safety rules</li><li>Provisioning script for agents and room</li><li>Seeded demo repo with a real bug</li><li><b>Human approval gate</b> and audit log</li><li>Tests, demo script, this page</li></ul></div>
       <div class="card"><h3>Not used</h3><ul class="clean no">
-        <li>Switch Console desktop app</li><li>Task API, called “not ready” in Switch’s own docs</li><li>Switch Trust guardrails</li><li>Slack or Teams</li></ul></div>
+        <li>Switch Console desktop app</li><li>Task API, called “not ready” in Switch’s own docs</li><li>Switch Trust guardrails</li><li>Slack, Teams or Discord (supported by Switch, not run by us)</li></ul></div>
     </div>
     <h3 style="margin:34px 0 6px;font-size:18px">Safety, and how each part was verified</h3>
     <div class="grid g2">
@@ -401,10 +404,12 @@ python3 scripts/approve.py --branch &lt;branch the commander gives you&gt;</div>
     ['assets/1-investigation.jpg', 'The engineer posts a root cause with evidence: the commit, the failing log lines, a reproduction with real test output, and the fix on a branch.'],
     ['assets/2-qa-and-human-review.jpg', 'QA approves after re-running the tests itself. The commander then briefs the human with the diff, test runs, risks and the exact approve command, and waits.'],
     ['assets/3-false-claim-refused.jpg', 'The safety test. The human falsely claims the fix was pushed. The commander checks, finds no approval record, and keeps the incident open.'],
-    ['assets/4-human-approval-gate.jpg', 'The human gate, run in a terminal: the tests are re-run, a typed yes is required, the branch is pushed and an audit entry is written.']
+    ['assets/4-human-approval-gate.jpg', 'The human gate, run in a terminal: the tests are re-run, a typed yes is required, the branch is pushed and an audit entry is written.'],
+    ['assets/telegram-1.jpg', 'The same agents in a Telegram group. The human falsely claims the fix was pushed and the commander will not resolve it. QA’s live activity card shows each command it ran.'],
+    ['assets/telegram-2.jpg', 'After the real approval, the commander reads approvals.log itself (commit e8fcbba), resolves the incident, and still flags that the log says merged: false and the charged customers need ops.']
   ];
   const img = $('#shotimg'), cap = $('#shotcap');
-  function shot(i) { img.src = SHOTS[i][0]; cap.textContent = SHOTS[i][1]; document.querySelectorAll('.tab').forEach((t, j) => t.setAttribute('aria-selected', String(i === j))); }
+  function shot(i) { img.classList.toggle('narrow', i >= 4); img.src = SHOTS[i][0]; cap.textContent = SHOTS[i][1]; document.querySelectorAll('.tab').forEach((t, j) => t.setAttribute('aria-selected', String(i === j))); }
   document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => shot(+t.dataset.i)));
   shot(0);
 
