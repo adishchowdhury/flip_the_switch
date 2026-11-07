@@ -23,14 +23,14 @@ A person reports "checkout is failing" in chat. A commander agent triages and ke
 
 ```mermaid
 flowchart LR
-  H([Human in Mattermost]) -->|@mention| C[switchops-commander<br/>triage + ledger]
-  C -->|@mention| E[switchops-engineer<br/>investigate, repro, fix]
-  E -->|branch + evidence| C
-  C -->|@mention| Q[switchops-qa<br/>independent review]
-  Q -->|APPROVE / REJECT| C
-  C -->|summary, risks, command| H
-  H -->|runs| A{{scripts/approve.py<br/>re-runs tests, typed yes}}
-  A --> O[(origin.git + approvals.log)]
+  H(["Human in Mattermost"]) -->|"@mention"| C["switchops-commander<br/>triage and ledger"]
+  C -->|"@mention"| E["switchops-engineer<br/>investigate, repro, fix"]
+  E -->|"branch and evidence"| C
+  C -->|"@mention"| Q["switchops-qa<br/>independent review"]
+  Q -->|"APPROVE or REJECT"| C
+  C -->|"summary, risks, command"| H
+  H -->|"runs"| A{{"scripts/approve.py<br/>re-runs tests, typed yes"}}
+  A --> O[("origin.git and approvals.log")]
 ```
 
 ### Where Switch is used (and where it isn't)
