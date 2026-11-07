@@ -103,5 +103,5 @@ Run everything inside Ubuntu in your Linux home folder (`cd ~`), not under `/mnt
 - Roles are defined in the room (`!roles` lists three exclusive roles). In the recorded run only the commander assumed its role; the engineer and QA did not, and handoffs worked through @mentions. Roles show as free once sessions end.
 - Single scenario, two runs (one stalled, one clean); the QA agent's independence is separate sessions and clones, not a different model.
 - Gate pushes to a local bare repo (`origin.git`), not GitHub. No deploy exists.
-- Not run: Switch Console, Slack/Teams, remote hosts. The screenshot is from a Linux sandbox run, not a laptop run.
+- Not run: Switch Console, Slack/Teams, remote hosts.
 - Verified in a Linux sandbox where `ghcr.io` images were blocked, so Switch runs from source, not the standalone image.
