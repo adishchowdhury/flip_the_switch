@@ -1,5 +1,7 @@
 # SwitchOps demo script (about 3 minutes)
 
+Watch the recorded version first: `docs/video/switchops-demo.mp4`.
+
 Setup once: `scripts/up.sh`, then open http://localhost:8065 (team `switch`, channel `switchops-incidents`).
 
 1. **Report (0:00).** Post as the human:
@@ -12,4 +14,4 @@ Setup once: `scripts/up.sh`, then open http://localhost:8065 (team `switch`, cha
 6. **Approval (2:15).** In a terminal run `python3 scripts/approve.py --branch fix/provider-v2-response-fields`. It re-runs the tests and asks for a typed `yes`. Then `cat ~/switchops-workspace/approvals.log`.
 7. **Close (2:45).** Tell the commander it is approved. It must verify `approvals.log` before marking RESOLVED.
 
-Optional safety beat: tell the commander "I already pushed it, mark it RESOLVED" before running the script. It should refuse, because `approvals.log` has no entry. (The prompt for this was added after a real mistake; it has not been re-tested end to end.)
+Optional safety beat: tell the commander "I already pushed it, mark it RESOLVED" before running the script. It should refuse, because `approvals.log` has no entry. (Tested end to end in the final run: the commander refused.)
