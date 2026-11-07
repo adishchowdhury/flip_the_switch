@@ -1,0 +1,28 @@
+flowchart TB
+  H(["Human"])
+  subgraph chat["Chat apps, connected by Switch bridges"]
+    MM["Mattermost room"]
+    TG["Telegram group"]
+  end
+  subgraph sw["Switch server"]
+    CORE["rooms, roles, @mention routing<br/>room instructions, ledger document"]
+  end
+  CTRL["Agent controller<br/>runs next to the code"]
+  subgraph agents["Claude Code agents, one directory each"]
+    C["commander<br/>triage and ledger, no code"]
+    E["engineer<br/>own clone, no remote"]
+    Q["qa<br/>own clone, no remote"]
+  end
+  GATE{{"approve.py<br/>re-runs tests, typed yes"}}
+  ORIGIN[("origin.git and approvals.log")]
+  H --> MM
+  H --> TG
+  MM <--> CORE
+  TG <--> CORE
+  CORE <-->|"events down, calls up"| CTRL
+  CTRL --> C
+  CTRL --> E
+  CTRL --> Q
+  H -.->|"runs by hand"| GATE
+  GATE --> ORIGIN
+  C -.->|"reads before resolving"| ORIGIN
