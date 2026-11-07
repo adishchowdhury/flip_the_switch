@@ -105,6 +105,8 @@ python3 switchops/add_bridge.py adopt Telegram "<group name>"
 ```
 Discord: `DISCORD_BOT_TOKEN` and `DISCORD_GUILD_ID`, `connect discord`, post a message in a channel, then `adopt`. Setup steps for the bots are in Switch's docs (`docs/official/deploy/messaging-apps/` in its repository). **Status: verified with a real Telegram bot (2026-11-07).** In a Telegram group the same three agents ran the incident end to end: the commander refused a false "already pushed" claim, the human gate ran (`e8fcbba`, tests re-run, typed yes), and the commander then read `approvals.log` itself and resolved the incident. Screenshots: `docs/img/telegram-1-false-claim-and-qa.png` and `docs/img/telegram-2-verified-and-resolved.png`. Discord is supported by the script but has not been run with a real bot.
 
+Video: [docs/video/telegram-demo.mp4](docs/video/telegram-demo.mp4), a 26-second scroll through the group chat after the run, cropped to the chat pane.
+
 What the Telegram run taught us:
 - **Group Privacy must be off, and the bot re-added afterwards.** Telegram reads the setting when the bot joins. Until then it only sees messages that tag the bot itself, not `@switchops-commander`.
 - **Account linking is confirmed from your own account:** `add_bridge.py link` gives a one-time code, and you post `/link_account <code>` in the group. Switch only knows people who have already written in a connected chat.
