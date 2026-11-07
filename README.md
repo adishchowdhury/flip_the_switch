@@ -21,6 +21,18 @@ A person reports "checkout is failing" in chat. A commander agent triages and ke
  Human only:  scripts/approve.py ──▶ re-runs tests ──▶ typed "yes" ──▶ push to origin.git + audit log
 ```
 
+```mermaid
+flowchart LR
+  H([Human in Mattermost]) -->|@mention| C[switchops-commander<br/>triage + ledger]
+  C -->|@mention| E[switchops-engineer<br/>investigate, repro, fix]
+  E -->|branch + evidence| C
+  C -->|@mention| Q[switchops-qa<br/>independent review]
+  Q -->|APPROVE / REJECT| C
+  C -->|summary, risks, command| H
+  H -->|runs| A{{scripts/approve.py<br/>re-runs tests, typed yes}}
+  A --> O[(origin.git + approvals.log)]
+```
+
 ### Where Switch is used (and where it isn't)
 - **Used from Switch:** the server (`switch-core`), the Mattermost bridge, the headless **agent controller** that runs the three Claude Code agents, managed-agent registration, a room with **room instructions** and **roles** (`incident-commander`, `engineer`, `qa-reviewer`), **room documents** (`incident-ledger`), and @mention routing between agents and people. Switch's own `setup.py` creates the chat team and links accounts.
 - **Built by us:** agent instructions, the provisioning script, the demo target repo, and the approval gate.
@@ -51,11 +63,18 @@ python3 -m unittest tests.test_approve                               # tests for
 ## What actually ran (real, unscripted agent output)
 On a seeded repo where a provider API upgrade renamed response fields, the agents: triaged SEV1; created the ledger; the engineer found commit `252fd4b`, quoted three failing log lines, reproduced 2 failing tests on `main`, fixed it on `fix/provider-v2-response-fields`; QA independently showed the new test fails on `main` and passes on the branch and noticed a pre-existing KeyError risk; the commander presented diff, tests, risks and the approve command, then waited. The human then ran the gate, which re-ran tests and pushed.
 
+![The real incident in the Switch room (Mattermost). It includes the human's mistaken "approved" message and its correction.](docs/img/incident-room.png)
+
+Demo walkthrough: [docs/DEMO.md](docs/DEMO.md).
+
+## Windows (WSL2) notes
+Run everything inside Ubuntu in your Linux home folder (`cd ~`), not under `/mnt/c`. Docker Desktop needs WSL integration on, and `sudo usermod -aG docker $USER` followed by reopening Ubuntu. If Docker Hub downloads fail or arrive corrupted on your network, try a different network (phone hotspot) and retry. `up.sh` skips Python dev tools (`UV_NO_DEV=1`) to reduce downloads. If Ubuntu keeps closing during the build, give WSL more memory in `%UserProfile%\.wslconfig`.
+
 ## Known limitations (honest)
 - **A mistake during development:** the first approve run was refused (it found 0 tests), but I (the human) told the commander it had succeeded and it marked RESOLVED without checking. Fixed the script and made the commander verify `approvals.log`. The agent-side fix is prompt-level and was not re-tested end to end.
 - The deny rules and "no remote" are guardrails, not a sandbox: agents run as the same OS user and could read other files.
-- Roles are defined in the room, but handoffs rely on @mentions; we did not verify agents assume roles.
+- Roles are defined in the room (`!roles` lists three exclusive roles). In the recorded run only the commander assumed its role; the engineer and QA did not, and handoffs worked through @mentions. Roles show as free once sessions end.
 - Single scenario, single run; the QA agent's independence is separate sessions and clones, not a different model.
 - Gate pushes to a local bare repo (`origin.git`), not GitHub. No deploy exists.
-- Not run: Switch Console, Slack/Teams, remote hosts. Not done: screenshots, architecture diagram beyond ASCII, demo script.
+- Not run: Switch Console, Slack/Teams, remote hosts. The screenshot is from a Linux sandbox run, not a laptop run.
 - Verified in a Linux sandbox where `ghcr.io` images were blocked, so Switch runs from source, not the standalone image.
