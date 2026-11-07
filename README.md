@@ -93,3 +93,5 @@ SwitchOps is **self-hosted and runs locally**, like Switch itself: `scripts/up.s
 
 Demo walkthrough: [docs/DEMO.md](docs/DEMO.md).
 
+## Landing page (Vercel)
+`site/` is a static landing page (plain HTML, no build step) with a toggle that replays the real incident. Deploy it on Vercel: import this repo, set **Root Directory** to `site`, Framework Preset **Other**, leave the build command and output directory empty. Or from a terminal: `cd site && npx vercel --prod`. Its GitHub links point at the working branch; after merging to `main`, run `sed -i 's|tree/adish/hopeful-hopper-8se359|tree/main|g' site/index.html`.
