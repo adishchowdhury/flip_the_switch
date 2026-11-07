@@ -2,6 +2,8 @@
 
 AI engineering teammates that take a production incident from **report to human-approved fix**, collaborating with people inside a [Switch](https://github.com/sandbox-quantum/switch) room. Built for the Flip the Switch hackathon.
 
+**Write-up:** [I Let Three AI Agents Run an Incident. The Most Useful Thing They Did Was Refuse Me.](https://dev.to/adish_100/i-let-three-ai-agents-run-an-incident-the-most-useful-thing-they-did-was-refuse-me-3fhm)
+
 A person reports "checkout is failing" in chat. A commander agent triages and keeps an incident ledger, an engineer agent investigates the real repo, reproduces the bug and fixes it on a branch, an independent QA agent re-runs the tests and can reject the fix, and **only a human** can push it.
 
 ## Architecture
