@@ -11,6 +11,9 @@ DATA="${SWITCHOPS_DATA:-$HOME/.switchops}"
 export SWITCHOPS_HOME="${SWITCHOPS_HOME:-$HOME/switchops-workspace}"
 mkdir -p "$DATA"
 
+# Skip developer-only tools (ruff, mypy): not needed to run Switch, and fewer downloads to corrupt.
+export UV_NO_DEV=1
+
 say() { printf '\n== %s\n' "$*"; }
 
 for bin in git docker uv node pnpm python3 claude; do
